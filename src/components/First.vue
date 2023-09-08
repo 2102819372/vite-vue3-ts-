@@ -1,5 +1,6 @@
 <template>
   <div
+    id="chart-box"
     ref="chartRef"
     style="height: 500px; width: 100vw; background-color: #ddd"
     class="first-container"
@@ -10,7 +11,7 @@ import * as echarts from 'echarts';
 import { onMounted, ref, Ref, onBeforeUnmount } from 'vue';
 const option = {
   tooltip: {
-    formatter: ' {c}<br/>  占比：{d}%',
+    formatter: ' {b}<br/>{c}占比：{d}%',
   },
   legend: {},
   xAxis: {
@@ -29,14 +30,61 @@ const option = {
       show: false, // 这行将隐藏Y轴刻度线
     },
   },
+  legend: {
+    orient: 'vertical',
+    left: 30,
+    top: 0,
+    bottom: 'center',
+    textStyle: {
+      fontSize: 12,
+    },
+    icon: 'circle',
+    itemStyle: {
+      borderWidth: 0,
+    },
+  },
   series: [
     {
       name: '系列',
       type: 'pie',
-      data: [5, 20, 36, 10, 10, 20, 4].sort((pre, nxt) => {
-        return nxt - pre;
+      data: [
+        {
+          name: 'M1',
+          value: 250 * 40,
+        },
+        {
+          name: 'M2',
+          value: 231 * 20,
+        },
+        {
+          name: 'M3',
+          value: 160 * 21,
+        },
+        {
+          name: 'M4',
+          value: 40 * 24,
+        },
+        {
+          name: 'M5',
+          value: 63 * 25,
+        },
+        {
+          name: 'M6',
+          value: 85 * 21,
+        },
+        {
+          name: 'M7',
+          value: 26 * 27,
+        },
+        {
+          name: 'M8',
+          value: 154 * 29,
+        },
+      ].sort((pre, nxt) => {
+        return nxt.value - pre.value;
       }),
-      radius: ['55%', '80%'],
+      radius: ['25%', '40%'],
+      center: ['30%', '20%'],
       label: {
         show: false,
         position: 'inner',
@@ -44,6 +92,62 @@ const option = {
       itemStyle: {
         borderWidth: 10,
         borderColor: '#2b4acb',
+      },
+    },
+    {
+      type: 'gauge',
+      radius: '50%',
+      center: ['30%', '80%'],
+      max: 1000,
+      progress: {
+        show: false,
+      },
+      detail: {
+        valueAnimation: true,
+        offsetCenter: [0, '75%'],
+        // color: "rgba(255, 255, 255, 0.9)",
+        fontSize: 20,
+        formatter: function (value) {
+          return `${value.toFixed(1)}`;
+        },
+      },
+      axisLine: {
+        lineStyle: {
+          width: 16,
+          color: [
+            [0.31, '#FF8223'],
+            [0.72, '#306FFF'],
+            [1, '#f40'],
+          ],
+        },
+        roundCap: false,
+      },
+      data: [
+        {
+          value: 350,
+          name: '实时负荷 KW',
+          title: {
+            offsetCenter: [0, '50%'],
+            // color: "rgba(255, 255, 255, 0.7)",
+          },
+        },
+      ],
+      anchor: {
+        show: true,
+        showAbove: true,
+        size: 25,
+        itemStyle: {
+          borderColor: '#f54e4e',
+          borderWidth: 8,
+        },
+      },
+      pointer: {
+        icon: 'roundRect',
+        length: '50%',
+        width: 5,
+        itemStyle: {
+          color: '#f54e4e',
+        },
       },
     },
   ],
