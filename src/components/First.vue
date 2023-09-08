@@ -84,7 +84,7 @@ const option = {
         return nxt.value - pre.value;
       }),
       radius: ['25%', '40%'],
-      center: ['30%', '20%'],
+      center: ['50%', '20%'],
       label: {
         show: false,
         position: 'inner',
@@ -96,8 +96,8 @@ const option = {
     },
     {
       type: 'gauge',
-      radius: '50%',
-      center: ['30%', '80%'],
+      radius: '60%',
+      center: ['50%', '75%'],
       max: 1000,
       progress: {
         show: false,
@@ -115,8 +115,8 @@ const option = {
         lineStyle: {
           width: 16,
           color: [
-            [0.31, '#FF8223'],
-            [0.72, '#306FFF'],
+            [0.31, '#306FFF'],
+            [0.72, '#FF8223'],
             [1, '#f40'],
           ],
         },

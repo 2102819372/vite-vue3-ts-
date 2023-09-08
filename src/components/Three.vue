@@ -9,7 +9,8 @@ function init(callback) {
   var scene = new THREE.Scene();
   scene.background = new THREE.Color(0xfff0ff);
   var camera = new THREE.PerspectiveCamera(1, 1, 10);
-  camera.position.set(0, 0, 0);
+  camera.position.set(0, 2, 4);
+
   // 设置相机位置并渲染循环
   // camera.position.z = 0;
   // camera.position.x = 0;
@@ -21,6 +22,8 @@ function init(callback) {
       color: 0xff0fff,
     })
   );
+  camera.lookAt(cube.position);
+
   scene.add(cube);
   callback(scene, camera);
 }
@@ -28,7 +31,6 @@ onMounted(() => {
   var renderer = new THREE.WebGLRenderer({
     canvas: webglRef.value,
   });
-  console.log(renderer);
   init((scene, camera) => {
     renderer.render(scene, camera);
   });
