@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <First v-if="show" />
-    <button @click="isShow">展示</button>
+    <button @click="isShow">{{ isShow ? '收起' : '展示' }}</button>
   </div>
 </template>
 <script setup lang="ts">

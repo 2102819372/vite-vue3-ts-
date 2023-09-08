@@ -9,32 +9,57 @@
 import * as echarts from 'echarts';
 import { onMounted, ref, Ref, onBeforeUnmount } from 'vue';
 const option = {
-  tooltip: {},
+  tooltip: {
+    formatter: ' {c}<br/>  占比：{d}%',
+  },
   legend: {},
   xAxis: {
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    axisLine: {
+      show: false, // 这行将隐藏x轴
+    },
+    axisTick: {
+      show: false, // 这行将隐藏x轴刻度线
+    },
   },
-  yAxis: {},
+  yAxis: {
+    axisLine: {
+      show: false, // 这行将隐藏Y轴
+    },
+    axisTick: {
+      show: false, // 这行将隐藏Y轴刻度线
+    },
+  },
   series: [
     {
-      name: 'Sale',
-      type: 'bar',
-      data: [5, 20, 36, 10, 10, 20, 4],
+      name: '系列',
+      type: 'pie',
+      data: [5, 20, 36, 10, 10, 20, 4].sort((pre, nxt) => {
+        return nxt - pre;
+      }),
+      radius: ['55%', '80%'],
+      label: {
+        show: false,
+        position: 'inner',
+      },
+      itemStyle: {
+        borderWidth: 10,
+        borderColor: '#2b4acb',
+      },
     },
   ],
 };
 const chartRef: Ref = ref(null);
-onMounted(() => {
-  window.addEventListener('resize', () => {
-    chart.resize();
-  });
+
+const resize = onMounted(() => {
   const mycharts = echarts.init(chartRef.value);
   option && mycharts.setOption(option);
+  window.addEventListener('resize', () => {
+    mycharts?.resize();
+  });
 });
 onBeforeUnmount(() => {
   window.removeEventListener('resize', () => {
-    chart.resize();
-    console.log('remove');
+    mycharts?.resize();
   });
 });
 </script>
