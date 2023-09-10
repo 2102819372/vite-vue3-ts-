@@ -8,7 +8,7 @@ const webglRef: Ref = ref(null);
 function init(callback) {
   var scene = new THREE.Scene();
   scene.background = new THREE.Color(0xfff0ff);
-  var camera = new THREE.PerspectiveCamera(1, 1, 10);
+  var camera = new THREE.PerspectiveCamera(75, 45, 10);
   camera.position.set(0, 0, 4);
   scene.add(camera);
   var cube = new THREE.Mesh(
