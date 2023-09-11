@@ -1,5 +1,9 @@
 <template>
-  <div id="konva" ref="konvaRef" style="height: 50vh; width: 100vw"></div>
+  <div
+    id="konva"
+    ref="konvaRef"
+    style="transition: 0.3s; height: 50vh; width: 100vw"
+  ></div>
 </template>
 <script lang="ts" setup>
 // const appDiv: HTMLDivElement = document.querySelector('#id');
@@ -12,9 +16,43 @@ function iframe() {
   const iframe = document.createElement('iframe');
   const url = document.location.href;
   iframe.src = url + '/api';
-  div.appendChild(iframe);
+  // div.appendChild(iframe);
+  div.draggable = true;
   document.body.appendChild(div);
+  let l,
+    t,
+    move = false;
+  div.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    console.log('开启');
+    move = true;
+    const subX = e.offsetX;
+    const subY = e.offsetY;
+    const addX = e.target.clientWidth / 2;
+    const addY = e.target.clientHeight / 2;
+    document.addEventListener('mousemove', (e) => {
+      l = e.clientX - subX + addX;
+      t = e.clientY - subY + addY;
+      l < 0 ? (l = 0 + addX) : l;
+      t < 0 ? (t = 0 + addY) : t;
+      if (move) {
+        div.style.left = l + 'px';
+        div.style.top = t + 'px';
+        console.log(div.style.left, div.style.top);
+      }
+    });
+    document.addEventListener('mouseup', (e) => {
+      move = false;
+    });
+  });
+  div.addEventListener('mouseup', (e) => {
+    move = false;
+  });
 }
+/**
+ * 初始化konva
+ * @param {htmlDom|canvasDom} 传入dom以初始化
+ */
 function init(appDiv) {
   const { clientWidth, clientHeight } = appDiv;
   let stage: Konva.Stage = new Konva.Stage({
@@ -85,6 +123,15 @@ function init(appDiv) {
 
   stage.add(layerbg);
   stage.add(layerMark);
+}
+function timer(callback) {
+  let timer;
+  return function (e) {
+    if (timer) timer = null;
+    timer = setTimeout(() => {
+      callback(e);
+    }, 100);
+  };
 }
 onMounted(() => {
   init(konvaRef.value);

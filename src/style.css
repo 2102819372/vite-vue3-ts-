@@ -9,6 +9,7 @@ iframe {
   background-color: rgba(255, 0, 255, 0.6);
 }
 .model {
+  padding: 10px;
   background-color: #fff;
   width: 50vw;
   height: 50vh;
