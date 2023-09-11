@@ -30,12 +30,13 @@ function init(callback) {
   function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
+    renderer.setSize(webglRef.value.clientWidth, webglRef.value.clientHeight);
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
   }
   animate();
-  window.onResize(() => {
-    // renderer.resize()
+  window.addEventListener('resize', () => {
+    renderer.setSize(webglRef.value.clientWidth, webglRef.value.clientHeight);
   });
 }
 
