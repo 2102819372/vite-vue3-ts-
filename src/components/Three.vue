@@ -26,6 +26,7 @@ function init(callback) {
   scene.add(cube);
   camera.position.z = 5;
   camera.position.z = 5;
+  //回调请求下一帧
   function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
@@ -33,7 +34,11 @@ function init(callback) {
     cube.rotation.y += 0.01;
   }
   animate();
+  window.onResize(() => {
+    // renderer.resize()
+  });
 }
+
 onMounted(() => {
   init();
 });
