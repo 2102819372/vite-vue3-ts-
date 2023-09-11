@@ -5,37 +5,37 @@
 import { ref, Ref, onMounted } from 'vue';
 import * as THREE from 'three';
 const webglRef: Ref = ref(null);
-function init(dom, callback) {
-  //场景
-  var scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000);
-  //相机
-  var camera = new THREE.PerspectiveCamera(
-    45,
-    dom.value.clientWidth / dom.value.clientHeight,
-    1,
+function init(callback) {
+  //搭建场景
+  const scene = new THREE.Scene();
+  //创建相机
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    webglRef.value.clientWidth / webglRef.value.clientHeight,
+    0.1,
     1000
   );
-  camera.position.set(0, 0, 4);
-  scene.add(camera);
-  callback(scene, camera);
-  //方块
-  const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(0.5, 1, 1),
-    new THREE.MeshBasicMaterial({
-      color: 0x00ff00,
-    })
-  );
-  camera.lookAt(cube.position);
-  scene.add(cube);
-}
-onMounted(() => {
-  var renderer = new THREE.WebGLRenderer({
+  //建立渲染器|
+  const renderer = new THREE.WebGLRenderer({
     canvas: webglRef.value,
   });
-  init(webglRef, (scene, camera) => {
+  //创建方块
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  const cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+  camera.position.z = 5;
+  camera.position.z = 5;
+  function animate() {
+    requestAnimationFrame(animate);
     renderer.render(scene, camera);
-  });
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+  }
+  animate();
+}
+onMounted(() => {
+  init();
 });
 </script>
 <style scoped></style>
