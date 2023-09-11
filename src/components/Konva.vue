@@ -10,15 +10,22 @@
 import Konva from 'konva';
 import { ref, Ref, onMounted } from 'vue';
 const konvaRef: Ref = ref(null);
+/**
+ * 塞入iframe框架
+ */
 function iframe() {
   const div = document.createElement('div');
   div.classList.add('model');
+  const face = document.createElement('div');
+  face.classList.add('face');
   const iframe = document.createElement('iframe');
   const url = document.location.href;
   iframe.src = url + '/api';
-  // div.appendChild(iframe);
+  div.appendChild(iframe);
+  div.appendChild(face);
   div.draggable = true;
   document.body.appendChild(div);
+
   let l,
     t,
     move = false;
@@ -31,14 +38,15 @@ function iframe() {
     const addX = e.target.clientWidth / 2;
     const addY = e.target.clientHeight / 2;
     document.addEventListener('mousemove', (e) => {
-      l = e.clientX - subX + addX;
-      t = e.clientY - subY + addY;
-      l < 0 ? (l = 0 + addX) : l;
-      t < 0 ? (t = 0 + addY) : t;
+      const _h = window.innerHeight - div.offsetHeight;
+      const _w = window.innerWidth - div.offsetWidth;
+      l = e.clientX - subX; //left|top = 鼠标位置 - 鼠标在div内的位置 +div的一半因为居中时的transform(-50%,-50%)
+      t = e.clientY - subY;
+      l = Math.min(Math.max(0, l), _w);
+      t = Math.min(Math.max(0, t), _h);
       if (move) {
         div.style.left = l + 'px';
         div.style.top = t + 'px';
-        console.log(div.style.left, div.style.top);
       }
     });
     document.addEventListener('mouseup', (e) => {
