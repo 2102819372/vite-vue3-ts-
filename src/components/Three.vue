@@ -18,6 +18,7 @@ function init(callback) {
   //建立渲染器|
   const renderer = new THREE.WebGLRenderer({
     canvas: webglRef.value,
+    antialias: true,
   });
   //创建方块
   const geometry = new THREE.BoxGeometry(1, 1, 1);
